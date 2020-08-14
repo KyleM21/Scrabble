@@ -13,20 +13,21 @@ $( function() {
 	
 	// This makes it so draggable elements revert if they arent placed in spaces
 	$( ".draggable" ).draggable ({ 
-		revert: 'invalid',
-		snap: ".droppable",
-		snap: ".droppable2x" 
+		revert: 'invalid'
 	});
 	
-	// This is the drop function for the non-multiplier spaces, it grabs all of the info well need, and uses a switch statement
-	// to unlock the next dropzone
+	// This is the drop function for the non-multiplier spaces
 	$( ".droppable" ).droppable ({
 		drop: function( event, ui ) {
-			
+
+			$(this).append(ui.draggable.css('position','static'))
 			var dragged = ui.draggable;
 			var id = dragged.attr( "id" );
 			var dropID = event.target.id;
 			addLetter(id, dropID, 1);
+			
+			//var offset = dropID.offset();
+			//$(id).offset({ top: offset.top, left: offset.left});
 			
 			switch(event.target.id){
 				case "d1":
@@ -44,14 +45,13 @@ $( function() {
 				default:
 					break;
 			}
-			
+			    
 			dragged.draggable({disabled: true});
 			$(this).droppable( "disable" );
 		}
 	});
 	
-	// This is the drop function for the 2x-multiplier spaces, it grabs all of the info well need, and uses a switch statement
-	// to unlock the next dropzone
+	// This is the drop function for the 2x-multiplier spaces
 	$( ".droppable2x" ).droppable ({
 		drop: function( event, ui ) {
 			
