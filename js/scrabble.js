@@ -9,10 +9,10 @@
 */
 
  
-	/* These are my global variables, here I put the array, the wordArr, which holds the
-	current letters on the board, and a variable to hold the point value of those tiles
-	This array is from the pdf, its the example by Jesse M. Heines
-	I will be editing it to be simpler looking */
+/* These are my global variables, here I put the array, the wordArr, which holds the
+current letters on the board, and a variable to hold the point value of those tiles
+This array is from the pdf, its the example by Jesse M. Heines
+I will be editing it to be simpler looking */
 
 var ScrabbleTiles = [] ;
 	ScrabbleTiles["A"] = { "value" : 1,  "max" : 9,  "bank" : 9  ,	"inUse" : 0} ;
@@ -47,10 +47,10 @@ var wordArr = ["","","","","","","",""];
 var currentScore = 0;
 
 
-	/* addLetter takes the ID of the tile, the ID of the space its on, and the multiplier of that tile.
-	It grabs the value associated with the tile, multiplies it accordingly and adds it to the 
-	current score.  It then takes letter and adds it to the wordArr array which holds 7 letters,
-	one for each space on the board. */ 
+/* addLetter takes the ID of the tile, the ID of the space its on, and the multiplier of that tile.
+It grabs the value associated with the tile, multiplies it accordingly and adds it to the 
+current score.  It then takes letter and adds it to the wordArr array which holds 7 letters,
+one for each space on the board. */ 
 
 function addLetter(tileID, dropID, multi){
 	
@@ -67,7 +67,7 @@ function addLetter(tileID, dropID, multi){
 	
 }
 
-	// buildWord adds up all of the characters in the array and sends it back as a string.
+// buildWord adds up all of the characters in the array and sends it back as a string.
 	
 function buildWord(){
 	var string = "";	
@@ -83,7 +83,7 @@ function buildWord(){
 	return string;
 }
 
-	// resetHand goes through the array and sets every letter to a non-breaking space.
+// resetHand goes through the array and sets every letter to a non-breaking space.
 
 function resetHand(){
 	currentScore = 0;
@@ -102,9 +102,9 @@ function resetHand(){
 	$("#d7").droppable({disabled: true});
 }
 
-	/*  This will take the word array and subract its tiles from the tiles left.  It will also
-	add the score of the word to the total, and then if it runs out of tiles it will end 
-	the game.*/
+/*  This will take the word array and subract its tiles from the tiles left.  It will also
+add the score of the word to the total, and then if it runs out of tiles it will end 
+the game.*/
 
 function submitWord(){
 	// This adds the currentScore global variable to the score and sets it to the score holder
@@ -138,20 +138,20 @@ function submitWord(){
 			if(wordArr[i]!=""){
 				singleShuffle(i);
 			}
-			resetHand();
 		}
 	}
+	resetHand();
 }
 
-	// This shuffles the tiles and give out new ones.  Based on an algorithm of randomly
-	// picking a number 1-27 and if the number is 28 itll give a blank tile.  
+// This shuffles the tiles and give out new ones.  Based on an algorithm of randomly
+// picking a number 1-27 and if the number is 28 itll give a blank tile.  
 
 function shuffle(){
 	  
-		/*  First it calls resetUsage to change all inUse values to 0, this is so it can shuffle out a 
-		correct amount of tiles in regards to the amount left in the bank.  I will say that upon 
-		implementing this function and the inUse variable I have not seen anything that would violate 
-		the max amount allowed.  This could be RNG however.  */
+	/*  First it calls resetUsage to change all inUse values to 0, this is so it can shuffle out a 
+	correct amount of tiles in regards to the amount left in the bank.  I will say that upon 
+	implementing this function and the inUse variable I have not seen anything that would violate 
+	the max amount allowed.  This could be RNG however.  */
 	
 	resetUsage();
 	
@@ -189,8 +189,8 @@ function shuffle(){
 	}
 }
 
-	// This shuffles a single character, it will be called in a loop to shuffle and assume that not every
-	// tile will be used when the word is submitted.
+// This shuffles a single character, it will be called in a loop to shuffle and assume that not every
+// tile will be used when the word is submitted.
 
 function singleShuffle(x){
 		var tile = document.getElementById("pi" + x);
@@ -224,7 +224,7 @@ function singleShuffle(x){
 		}
 }
 
-	// This resets all of the usage flags for each tile, to ensure that there aren't any extra tiles
+// This resets all of the usage flags for each tile, to ensure that there aren't any extra tiles
 
 function resetUsage(){
 	
@@ -240,8 +240,8 @@ function resetUsage(){
 	}
 }
 
-	// This will check if each slot in the bank is empty, and if it gets to the end and every slow is empty
-	// it will return true.
+// This will check if each slot in the bank is empty, and if it gets to the end and every slow is empty
+// it will return true.
 
 function bankEmpty(){
 	var empty = 0;
@@ -269,17 +269,18 @@ function bankEmpty(){
 	}
 }
 
-	// This is a reset game button to refresh the page and start over.  Originally I was going
-	// to reset every div and value but I feel like this is a lot more practical.
+// This is a reset game button to refresh the page and start over.  Originally I was going
+// to reset every div and value but I feel like this is a lot more practical.
 
 function resetAll(){
 	location.reload();
 }
 
-	// This function disables all of the draggable and droppables, 
-	// resets them to basic position and makes every tile blank.
+// This function disables all of the draggable and droppables, 
+// resets them to basic position and makes every tile blank.
 	
 function endGame(){
+	
 	// Resets draggables to starter position and disables them.
 	$( ".draggable" ).css({ "top":"", "left":"" });
 	$( ".draggable").draggable({disabled: true});
