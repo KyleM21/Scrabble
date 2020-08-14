@@ -20,7 +20,7 @@ $( function() {
 	$( ".droppable" ).droppable ({
 		drop: function( event, ui ) {
 
-			$(this).append(ui.draggable.css('position','static'))
+			
 			var dragged = ui.draggable;
 			var id = dragged.attr( "id" );
 			var dropID = event.target.id;
