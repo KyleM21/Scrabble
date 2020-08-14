@@ -9,10 +9,10 @@
 */
 
  
-/* These are my global variables, here I put the array, the wordArr, which holds the
-current letters on the board, and a variable to hold the point value of those tiles
-This array is from the pdf, its the example by Jesse M. Heines
-I will be editing it to be simpler looking */
+	/* These are my global variables, here I put the array, the wordArr, which holds the
+	current letters on the board, and a variable to hold the point value of those tiles
+	This array is from the pdf, its the example by Jesse M. Heines
+	I will be editing it to be simpler looking */
 
 var ScrabbleTiles = [] ;
 	ScrabbleTiles["A"] = { "value" : 1,  "max" : 9,  "bank" : 9  ,	"inUse" : 0} ;
@@ -53,7 +53,6 @@ current score.  It then takes letter and adds it to the wordArr array which hold
 one for each space on the board. */ 
 
 function addLetter(tileID, dropID, multi){
-	
 	// Grabs the value from tileID and gets its position in the array from the dropID
 	var val = document.getElementById(tileID).getAttribute('value');
 	var index = parseInt(dropID.substring(1));
@@ -86,14 +85,14 @@ function buildWord(){
 // resetHand goes through the array and sets every letter to a non-breaking space.
 
 function resetHand(){
+	wordArr = ["","","","","","","",""];
+	
+	// Resets Score and current word field
 	currentScore = 0;
 	var w = document.getElementById("word");
 	w.innerHTML = "";
 	
-	for(var i = 1; i <= 7; i++){
-		wordArr[i]="";
-	}
-	
+	// Locks all dropzones 
 	$("#d2").droppable({disabled: true});
 	$("#d3").droppable({disabled: true});
 	$("#d4").droppable({disabled: true});
@@ -136,7 +135,7 @@ function submitWord(){
 	else{
 		for(var i = 1; i < 7; i++){
 			if(wordArr[i]!=""){
-				singleShuffle(i);
+				i - singleShuffle(i);
 			}
 		}
 	}
@@ -147,12 +146,10 @@ function submitWord(){
 // picking a number 1-27 and if the number is 28 itll give a blank tile.  
 
 function shuffle(){
-	  
 	/*  First it calls resetUsage to change all inUse values to 0, this is so it can shuffle out a 
 	correct amount of tiles in regards to the amount left in the bank.  I will say that upon 
 	implementing this function and the inUse variable I have not seen anything that would violate 
 	the max amount allowed.  This could be RNG however.  */
-	
 	resetUsage();
 	
 	// This loop grabs the value of the piece div and image, it sets the new tile image and then takes the 
@@ -193,42 +190,47 @@ function shuffle(){
 // tile will be used when the word is submitted.
 
 function singleShuffle(x){
-		var tile = document.getElementById("pi" + x);
-		var tileVal = document.getElementById("p" + x);
-		var rand = Math.floor((Math.random() * 28)+1);
-		var index = String.fromCharCode(rand + 64);
+	// This gets the pi# and p# id's using the value sent over.  Then generates a random number.
+	var tile = document.getElementById("pi" + x);
+	var tileVal = document.getElementById("p" + x);
+	
+	var rand = Math.floor((Math.random() * 28)+1);
+	var index = String.fromCharCode(rand + 64);
+		
+	// This if else handles the 26 letters and then the blank case.  It also iterates the inUse 
+	// variable because this will tell if theres too many of that letter in play.
+	if(rand < 27){
+		tile.src = "hw8files/tiles/" + index + ".jpg";
+		tileVal.setAttribute("value", index);
+		ScrabbleTiles[index].inUse ++;
+	}
+	else{
+		index = "_";
+		tile.src = "hw8files/tiles/" + "Blank" + ".jpg";
+		tileVal.setAttribute("value", index);
+		ScrabbleTiles[index].inUse++;
+	}
+	
+	// This checks to see if the bank is completely empty, and if so it stops recursion, otherwise
+	// if it shuffles to a letter that has no remaining tiles it will recursively shuffle again
+	if(ScrabbleTiles[index].bank == 0 || ScrabbleTiles[index].inUse==ScrabbleTiles[index].bank){
+		if(bankEmpty()){
 			
-		// This if else handles the 26 letters and then the blank case.  It also iterates the inUse 
-		// variable because this will tell if theres too many of that letter in play.
-		if(rand < 27){
-			tile.src = "hw8files/tiles/" + index + ".jpg";
-			tileVal.setAttribute("value", index);
-			ScrabbleTiles[index].inUse ++;
 		}
 		else{
-			index = "_";
-			tile.src = "hw8files/tiles/" + "Blank" + ".jpg";
-			tileVal.setAttribute("value", index);
-			ScrabbleTiles[index].inUse++;
+			// Getting rid of recursion seems to fix the bug in the submission file.
+			//shuffleSingle(x);
+			return 1;
 		}
-		
-		// This checks to see if the bank is completely empty, and if so it stops recursion, otherwise
-		// if it shuffles to a letter that has no remaining tiles it will recursively shuffle again
-		if(ScrabbleTiles[index].bank == 0 || ScrabbleTiles[index].inUse==ScrabbleTiles[index].bank){
-			if(bankEmpty()){
-				
-			}
-			else{
-				shuffleSingle(x);
-			}
-		}
+	}
+	return 0;
 }
 
 // This resets all of the usage flags for each tile, to ensure that there aren't any extra tiles
 
 function resetUsage(){
-	
 	var iter = "";
+	
 	// Iterates through all of the banks to check for empty ones
 	for(var i = 1; i < 27; i++){
 		iter = String.fromCharCode(i + 64);
@@ -280,7 +282,6 @@ function resetAll(){
 // resets them to basic position and makes every tile blank.
 	
 function endGame(){
-	
 	// Resets draggables to starter position and disables them.
 	$( ".draggable" ).css({ "top":"", "left":"" });
 	$( ".draggable").draggable({disabled: true});
