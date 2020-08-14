@@ -75,15 +75,21 @@ $( function() {
 	$( "#newHand" ).click(function() {
 		$( ".draggable" ).css({ "top":"", "left":"" });
 		$( ".draggable" ).draggable( "enable" );
+		$( ".droppable" ).droppable( "enable" );
+		$( ".droppable2x" ).droppable( "enable" );
 		
 	});
 	$( "#resHand" ).click(function() {
 		$( ".draggable" ).css({ "top":"", "left":"" });
 		$( ".draggable" ).draggable( "enable" );
+		$( ".droppable" ).droppable( "enable" );
+		$( ".droppable2x" ).droppable( "enable" );
 	});
 	$( "#subWord" ).click(function() {
 		$( ".draggable" ).css({ "top":"", "left":"" });
 		$( ".draggable" ).draggable( "enable" );
+		$( ".droppable" ).droppable( "enable" );
+		$( ".droppable2x" ).droppable( "enable" );
 	});
 });
 
