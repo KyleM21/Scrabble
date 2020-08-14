@@ -12,9 +12,14 @@
 $( function() {
 	
 	// This makes it so draggable elements revert if they arent placed in spaces
-	$( ".draggable" ).draggable ({ revert: 'invalid' });
+	$( ".draggable" ).draggable ({ 
+		revert: 'invalid',
+		snap: ".droppable",
+		snap: ".droppable2x" 
+	});
 	
-	// This is the drop function for the non-multiplier spaces
+	// This is the drop function for the non-multiplier spaces, it grabs all of the info well need, and uses a switch statement
+	// to unlock the next dropzone
 	$( ".droppable" ).droppable ({
 		drop: function( event, ui ) {
 			
@@ -45,7 +50,8 @@ $( function() {
 		}
 	});
 	
-	// This is the drop function for the 2x-multiplier spaces
+	// This is the drop function for the 2x-multiplier spaces, it grabs all of the info well need, and uses a switch statement
+	// to unlock the next dropzone
 	$( ".droppable2x" ).droppable ({
 		drop: function( event, ui ) {
 			
