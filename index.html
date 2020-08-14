@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!--File:  index.html
+	Name: Kyle Marcoux
+    Email: kyle_marcoux@student.uml.edu
+    Umass Lowell 91.61 GUI Programming 1
+    Created 8/09/20
+    This is scrabble, you can play it, get your score, submit your word!
+-->
+
+<!-- The language of this page is English -->
+<html lang="en">
+<head>
+	<!--<meta name="title" content="Scrabble">
+		<meta name="description" content="This is a small table for multiplication">
+		<meta name="keywords" content="homework, scrabble, game, JQueryUI, fun">
+		<meta name="robots" content="noindex, nofollow">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="language" content="English">
+		<meta name="author" content="Kyle M">-->
+		
+	<title>Scrabble</title>
+	
+	<!-- This is to call jquery and bootstrap -->
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" 
+			integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+	
+	<!-- This is the call to the stylesheet -->
+	<link rel="stylesheet" href="css/hw8.css">	
+	
+	<!-- This is the script for scrabble computations -->
+	<script type = "text/javascript" src="js/scrabble.js"></script>
+	
+	<!-- This is the script for the tile physics -->
+	<script type = "text/javascript" src="js/physics.js"></script>
+	
+	<!-- This shuffles the tiles upon page load and it also disabled all but the first dropzone.
+		I wasn't sure where the most organized place was for this because its not physics nor 
+		computation.  So right here by itself seems like a good place!	-->
+	<script>
+		window.onload = function() {
+			shuffle();
+			$("#d2").droppable({disabled: true});
+			$("#d3").droppable({disabled: true});
+			$("#d4").droppable({disabled: true});
+			$("#d5").droppable({disabled: true});
+			$("#d6").droppable({disabled: true});
+			$("#d7").droppable({disabled: true});
+		};
+	</script>
+	
+</head>
+<body>
+
+	<h1 id="title">Scrabble</h1>	
+	<h2 id="title2">Drag and Drop to make words!</h2>
+		
+	<!-- This is the container for the pieces -->
+	<div id="handCont justify-content-center">
+		<div class="hand container row justify-content-center">
+			<div id="p1" class="ui-widget-content draggable column" value="H"><img id="pi1" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70"/></div>	
+			<div id="p2" class="ui-widget-content draggable column" value="E"><img id="pi2" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>		
+			<div id="p3" class="ui-widget-content draggable column" value="L"><img id="pi3" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>		
+			<div id="p4" class="ui-widget-content draggable column" value="L"><img id="pi4" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>		
+			<div id="p5" class="ui-widget-content draggable column" value="O"><img id="pi5" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>		
+			<div id="p6" class="ui-widget-content draggable column" value="X"><img id="pi6" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>		
+			<div id="p7" class="ui-widget-content draggable column" value="V"><img id="pi7" class="piece" src="hw8files/tiles/Blank.jpg" height="70" width="70" /></div>
+		</div>
+	</div>
+	
+	<!-- This is the mainboard, it will be changing its values as the user plays the game -->
+	<div id="mainBoard" class="row">
+	
+		<!-- All of the changing things are here, it consists of the score, tiles left, and the current word -->
+		<div id="index" class="col-md-6">
+			<p class="name">Score: </p>
+			<p id="score">0</p>
+			<p class="name">Tiles left: </p>
+			<p id="tilesLeft">100</p>
+			<p class="name">Current word: </p>
+			<p id="word"></p>
+		</div>
+		
+		<!-- This contains all of the buttons, it is the right column of the main board -->
+		<div id="index" class="col-md-6  justify-content-center"> 
+			<button id="reset" type="button" class="btn btn-dark center resetDivs" onClick="resetAll();">Reset Game</button>
+			<button id="subWord" type="button" class="btn btn-dark center resetDivs" onClick="submitWord();">Submit word</button>
+			<button id="resHand" type="button" class="btn btn-dark center resetDivs" onClick="resetHand();">Reset Tiles</button>
+			<button id="newHand" type="button" class="btn btn-dark center resetDivs" onClick="shuffle();">New Hand</button>
+			
+		</div>
+	</div>
+	
+	<!-- This is the container for the dropzone spaces -->
+	<div id="dropCont" class="container board">
+		<p class="info">Form a word here using the letters!</p>
+		
+		<div id="droparea" class="row justify-content-center">
+			<div id="d1" class="ui-widget-content column droppable"	><img class="dropbox" src="hw8files/dropbox.png" height="80" width="80" /></div>	
+			<div id="d2" class="ui-widget-content column droppable2x" ><img class="dropbox" src="hw8files/doublebox.png" height="80" width="80" /></div>		
+			<div id="d3" class="ui-widget-content column droppable" ><img class="dropbox" src="hw8files/dropbox.png" height="80" width="80" /></div>		
+			<div id="d4" class="ui-widget-content column droppable" ><img class="dropbox" src="hw8files/dropbox.png" height="80" width="80" /></div>		
+			<div id="d5" class="ui-widget-content column droppable2x" ><img class="dropbox" src="hw8files/doublebox.png" height="80" width="80" /></div>		
+			<div id="d6" class="ui-widget-content column droppable" ><img class="dropbox" src="hw8files/dropbox.png" height="80" width="80" /></div>		
+			<div id="d7" class="ui-widget-content column droppable" ><img class="dropbox" src="hw8files/dropbox.png" height="80" width="80" /></div>
+		</div>
+	</div>
+	
+</body>
+</html>
